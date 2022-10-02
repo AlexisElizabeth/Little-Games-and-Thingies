@@ -1,0 +1,44 @@
+logo = '''
+                         ___________
+                         \         /
+                          )_______(
+                          |"""""""|_.-._,.---------.,_.-._
+                          |       | | |               | | ''-.
+                          |       |_| |_             _| |_..-'
+                          |_______| '-' `'---------'` '-'
+                          )"""""""(
+                         /_________\\
+                       .-------------.
+                      /_______________\\
+'''
+
+
+
+from replit import clear
+from art import logo
+
+print(logo)
+print("Welcome to the secret auction program.")
+
+bids = {}
+
+bidding_finished = False
+while not bidding_finished:
+    name = input("What is your name?: ")
+    price = int(input("What is your bid?: £"))
+    bids[name] = price
+    keep_bidding = input("Are they any other bidders?  Type 'yes' or 'no'.\n")
+    if keep_bidding == "yes":
+        clear()
+    else:
+        print("Bidding has finished!")
+        bidding_finished = True
+        
+highest_bid = 0
+winner = ""
+for bidder in bids:
+    if bids[bidder] > highest_bid:
+        highest_bid = bids[bidder]
+        winner = bidder
+
+print(f"The winning bidder is {bidder}")
