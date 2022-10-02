@@ -1,0 +1,27 @@
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+def caesar(start_text, shift, direction):
+    end_text = ""
+    if direction == "decode":
+        shift *= -1
+    for letter in start_text:
+        if letter in alphabet:
+            index = alphabet.index(letter)
+            end_text += alphabet[(index + shift) % len(alphabet)]
+        else:
+            end_text += letter
+    print(f"The {direction}d text is {end_text}")
+
+#For some reason everything under this line does not execute using Pycharm on my own computer, running Python 3.10, but will run on their IDE?
+
+should_end = False
+while not should_end:
+    direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
+    text = input("Type your message:\n").lower()
+    shift = int(input("Type the shift number:\n"))
+    caesar(start_text=text, shift=shift, direction=direction)
+    restart = input("Type 'yes' if you want to go again. Otherwise type 'no'.\n")
+    if restart == "no":
+        should_end = True
+        print("Goodbye")
+
