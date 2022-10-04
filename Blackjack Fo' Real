@@ -1,0 +1,103 @@
+from random import choice
+
+logo = """
+.------.            _     _            _    _            _    
+|A_  _ |.          | |   | |          | |  (_)          | |   
+|( \/ ).-----.     | |__ | | __ _  ___| | ___  __ _  ___| | __
+| \  /|K /\  |     | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+|  \/ | /  \ |     | |_) | | (_| | (__|   <| | (_| | (__|   < 
+`-----| \  / |     |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_
+      |  \/ K|                            _/ |                
+      `------'                           |__/           
+"""
+
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+
+def draw_card(hand):
+    new_card = choice(cards)
+    hand.append(new_card)
+
+
+def change_ace_value(hand):
+    hand.remove(11)
+    hand.append(1)
+    print("The value of the ace shifts from 11 to 1")
+    print(f"Your new hand is {hand} with a score of {sum(hand)}")
+
+
+def blackjack():
+    print(logo)
+    if input("Do you want to play a game of Blackjack? Type 'y' or 'n': ") == "y":
+        game_on = True
+    else:
+        game_on = False
+    while game_on:
+        player_hand = []
+        dealer_hand = []
+
+        for i in range(0, 2):
+            draw_card(player_hand)
+        for i in range(0, 2):
+            draw_card(dealer_hand)
+        print(f"Your cards: {player_hand}, current score: {sum(player_hand)}")
+        if sum(player_hand) == 21 and sum(dealer_hand) == 21:
+            print(f"The dealer's cards: {dealer_hand}")
+            print("You both have Blackjack but the dealer wins!")
+            game_on = False
+        elif sum(player_hand) == 21:
+            print("Blackjack!  The player wins!")
+            game_on = False
+        elif sum(dealer_hand) == 21:
+            print(f"The dealer's cards: {dealer_hand}")
+            print("Blackjack! The dealer wins!")
+            game_on = False
+        else:
+            print(f"Dealer's hand showing: {dealer_hand[0]}")
+            hit_me = True
+            while hit_me:
+                if input("Type 'y' to get another card, type 'n' to pass: ") == "y":
+                    draw_card(player_hand)
+                    print(f"Your cards: {player_hand}, current score: {sum(player_hand)}")
+                    print(f"Dealer's hand showing: {dealer_hand[0]}")
+                    if sum(player_hand) == 21:
+                        print("You hit 21!  You win!")
+                        game_on = False
+                        hit_me = False
+                    elif sum(player_hand) > 21:
+                        if 11 in player_hand:
+                            change_ace_value(player_hand)
+                        else:
+                            print("You bust!")
+                            game_on = False
+                            hit_me = False
+                else:
+                    while sum(dealer_hand) <= 17:
+                        print(f"Dealer has {dealer_hand}")
+                        print("Dealer draws another card")
+                        draw_card(dealer_hand)
+                        print(f"Dealer has: {dealer_hand}")
+                        print(f"The dealer's hand totals {sum(dealer_hand)} and your hand totals {sum(player_hand)}")
+                    if sum(dealer_hand) > 21:
+                        if 11 in dealer_hand:
+                            change_ace_value(dealer_hand)
+                        else:
+                            print("Dealer busts!")
+                    elif sum(dealer_hand) > sum(player_hand):
+                        print("You lose! Dealer wins!")
+                    elif sum(player_hand) == sum(dealer_hand):
+                        print("You draw!")
+                    else:
+                        print("You win! Dealer loses!")
+                    hit_me = False
+                    game_on = False
+
+    else:
+        if input("Do you want to continue?: ") == "y":
+            blackjack()
+        else:
+            print("Thanks for playing!")
+
+
+blackjack()
