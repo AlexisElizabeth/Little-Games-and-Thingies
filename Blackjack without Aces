@@ -1,0 +1,100 @@
+from random import choice
+
+card_values = {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "J": 10,
+    "Q": 10,
+    "K": 10,
+    "A": 11
+}
+
+cards = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+
+
+def draw_card(hand):
+    new_card = choice(cards)
+    hand.append(new_card)
+
+def total(hand):
+    score = 0
+    for card in hand:
+        score += card_values[card]
+    return score
+
+def total_with_ace(hand):
+    score = 0
+    for card in hand:
+        score += card_values[card]
+    if "A" in hand:
+        score -= 10
+    return score
+
+
+game_on = True
+while game_on:
+    player_hand = []
+    dealer_hand = []
+    if input("Do you want to play a game of Blackjack? Type 'y' or 'n': ") == "y":
+        for i in range(0,2):
+            draw_card(player_hand)
+        for i in range(0,2):
+            draw_card(dealer_hand)
+        print(f"Your cards: {player_hand}, current score: {total(player_hand)}")
+        print(f"Dealer's hand showing: {dealer_hand[0]}")
+        if total(player_hand) == 21:
+            print("Blackjack! You win!")
+            game_on = False
+        elif total(dealer_hand) == 21:
+            print(f"Dealer has {dealer_hand}! Blackjack! Dealer wins!")
+        else:
+            hit_me = True
+            while hit_me:
+                if input("Type 'y' to get another card, type 'n' to pass: ") == "y":
+                    draw_card(player_hand)
+                    print(f"Your cards: {player_hand}, current score: {total(player_hand)}")
+                    print(f"Dealer's hand showing: {dealer_hand[0]}")
+                    if total(player_hand) > 21:
+                        print(f"Dealer reveals: {dealer_hand}")
+                        print("You bust")
+                        hit_me = False
+                    elif total(player_hand) == 21:
+                        print("You hit 21! You win!")
+                        hit_me = False
+
+                else:
+                    while total(dealer_hand) <= 17:
+                        print(f"Dealer has {dealer_hand}")
+                        print("Dealer draws another card")
+                        draw_card(dealer_hand)
+                        print(f"Dealer has: {dealer_hand}")
+                    print(f"The dealer's hand totals {total(dealer_hand)} and your hand totals {total(player_hand)}")
+                    if total(dealer_hand) > 21:
+                        print("Dealer busts!")
+                    elif total(dealer_hand) > total(player_hand):
+                        print("You lose! Dealer wins!")
+                    elif total(player_hand) == total(dealer_hand):
+                        print("You draw!")
+                    else:
+                        print("You win! Dealer loses!")
+                    hit_me = False
+    else:
+        game_on = False
+        print("Have a nice day!")
+
+
+
+
+
+
+
+
+
