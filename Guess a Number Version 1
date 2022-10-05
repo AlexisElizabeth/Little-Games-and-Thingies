@@ -1,0 +1,39 @@
+from random import randint
+
+print("Welcome to the Number Guessing Game!")
+print("I'm thinking of a number between 1 and 100.")
+difficulty = input("Choose a difficult.  Type 'easy' or 'hard': ")
+
+if difficulty == "easy":
+    guesses_remaining = 10
+else:
+    guesses_remaining = 5
+
+secret_number = randint(1, 101)
+
+print(secret_number)
+
+while guesses_remaining > 0:
+    print(f"You have {guesses_remaining} guesses remaining to guess the number.")
+    guess = int(input("Make a guess: "))
+    if guess > 100 or guess < 0:
+        print("This is not a number between 1 and 100")
+    elif secret_number == guess:
+        print(f"You got it! The answer was {secret_number}")
+        guesses_remaining = 0
+    elif guess > secret_number:
+        print("Too high.")
+    elif guess < secret_number:
+        print("Too low.")
+    else:
+        print("I don't understand")
+    guesses_remaining -= 1
+
+if guesses_remaining == 0 and secret_number != guess:
+        print(f"You lose! The answer was {secret_number}")
+
+
+
+
+
+
